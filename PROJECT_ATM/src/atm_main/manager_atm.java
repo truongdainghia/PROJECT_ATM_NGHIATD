@@ -18,10 +18,10 @@ public class manager_atm {
 //			login1.showWindow();
 //		Admin_Manager login1 = new Admin_Manager("HỆ THỐNG ADMIN");
 //			login1.showWindow();
-		Customer_CRUD login1 = new Customer_CRUD("HỆ THỐNG ADMIN");
-		login1.showWindow();
-//		ATM_ManaGer login = new ATM_ManaGer("HÊ THỐNG QUẢN LÝ ATM");
-//				login.showWindow();
+//		Customer_CRUD login1 = new Customer_CRUD("HỆ THỐNG ADMIN");
+//		login1.showWindow();
+		ATM_ManaGer login = new ATM_ManaGer("HÊ THỐNG QUẢN LÝ ATM");
+				login.showWindow();
 //		Transaction login = new Transaction("HỆ THỐNG QUẢN LÝ GIAO DỊCH");
 //		login.showWindow();
 //		Report login = new Report("GIAO DIỆN CHÍNH CỦA QUẢN LÝ THỐNG KÊ");

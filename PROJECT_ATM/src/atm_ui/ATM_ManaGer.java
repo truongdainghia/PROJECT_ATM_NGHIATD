@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -29,6 +30,13 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import ATM_entity.ATM;
+import ATM_entity.ChooseItem;
+import ATM_entity.KhachHang;
+import atm_model.DatabaseATM;
+import atm_model.DatabaseDiaChi;
+import atm_model.DatabaseKhachHang;
+
 public class ATM_ManaGer extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
@@ -39,9 +47,10 @@ public class ATM_ManaGer extends JFrame {
 	JButton reset = new JButton("RESET");
 	JLabel kc1, kc2, kc3, kc4, kc5;
 	JTextField txtMa, txtTen, txtPhuong, txtDiaChi, txtSDT, txtEmail, txtSothe, txtSTK_NH, txtPhone, txtSoDu, txtMaPin;
-	JComboBox setPhuong, setquan;
+	JComboBox<ChooseItem> setPhuong, setquan;
 	DefaultTableModel dm ;
 	JTable tbl;
+	private ArrayList<ChooseItem> arrPhuong = new ArrayList<>();
 	ActionListener chucnangkhaccl = new ActionListener() {
 
 		@Override
@@ -95,6 +104,26 @@ public class ATM_ManaGer extends JFrame {
 
 		}
 	};
+	public void selectPhuong() {
+		arrPhuong.clear();
+		int itemCount = setPhuong.getItemCount();
+		for(int i =0;i<itemCount;i++) {
+			setPhuong.removeItemAt(0);
+		}
+		ChooseItem itemD = (ChooseItem) setquan.getSelectedItem();
+		int id  = itemD.getId();
+		arrPhuong = DatabaseDiaChi.getPhuong(id);
+		for (ChooseItem o : arrPhuong) {
+			setPhuong.addItem(o);
+		}
+	}
+	ActionListener chonPhuong = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			selectPhuong();
+		}
+	};
 
 	MouseListener tblUserClick = new MouseListener() {
 
@@ -135,6 +164,7 @@ public class ATM_ManaGer extends JFrame {
 		delete.addActionListener(deleteClick);
 		reset.addActionListener(resetClick);
 		tbl.addMouseListener(tblUserClick);
+		setquan.addActionListener(chonPhuong);
 
 		// tbl.addMouseListener(tblUserClick);
 	}
@@ -234,17 +264,14 @@ public class ATM_ManaGer extends JFrame {
 		pnquan.setPreferredSize(new Dimension(100, 20));
 		JLabel lblquan = new JLabel("CHỌN QUẬN:  ");
 		lblquan.setForeground(Color.BLUE);
-		setquan = new JComboBox<String>();
+		setquan = new JComboBox();
 		setquan.setPreferredSize(new Dimension(100, 20));
+		ArrayList<ChooseItem> quan = new ArrayList<ChooseItem>();
+		quan = DatabaseDiaChi.getQuan();
+		for (ChooseItem x : quan) {
+			setquan.addItem(x);
+		}
 
-		setquan.addItem("HOÀNG SA");
-		setquan.addItem("CẨM LỆ");
-		setquan.addItem("HÒA VANG");
-		setquan.addItem("THANH KHÊ");
-		setquan.addItem("SƠN TRÀ");
-		setquan.addItem("NGŨ HÀNH SƠN");
-		setquan.addItem("LIÊN CHIỂU");
-		setquan.addItem("HẢI CHÂU");
 		// setquan.addItem("HẢI CHÂU");
 
 		pnquan.add(lblquan);
@@ -256,20 +283,8 @@ public class ATM_ManaGer extends JFrame {
 			pnPhuong.setPreferredSize(new Dimension(100, 20));
 			JLabel lblPhuong = new JLabel("CÁC PHƯỜNG:  ");
 			lblPhuong.setForeground(Color.BLUE);
-			setPhuong = new JComboBox<String>();
+			setPhuong = new JComboBox();
 			setPhuong.setPreferredSize(new Dimension(100, 20));
-
-			setPhuong.addItem("Hòa An");
-			setPhuong.addItem("Hòa Phát");
-			setPhuong.addItem("Hòa Thọ Đông");
-			setPhuong.addItem("Hòa Xuân");
-			setPhuong.addItem("Hòa Cường Bắc");
-			setPhuong.addItem("Hòa Cường Nam");
-			setPhuong.addItem("Hòa Bắc");
-			setPhuong.addItem("Hòa Châu");
-			setPhuong.addItem("Hòa Khương");
-			// setPhuong.addItem("Hòa Khương");
-			// setPhuong.addItem("Hòa Khương");
 			pnPhuong.add(lblPhuong);
 			pnPhuong.add(setPhuong);
 			 pnPhuong.add(setPhuong);
@@ -386,7 +401,7 @@ public class ATM_ManaGer extends JFrame {
 		dm.addColumn("Phường");
 		dm.addColumn("Vị Trí");
 		dm.addColumn("Tổng tiền");
-		
+		this.getTable();
 		
 		tbl = new JTable(dm);		
 		JScrollPane sc = new JScrollPane(tbl);
@@ -395,6 +410,19 @@ public class ATM_ManaGer extends JFrame {
 		pnBorder.add(pnCenter, BorderLayout.CENTER);
 
 		con.add(pnBorder);
+	}
+	public void getTable() {
+		ArrayList<ATM> atmList = DatabaseATM.selectATM();
+		dm.setRowCount(0);
+		for(int i = 0; i<atmList.size();i++) {
+			
+			dm.addRow(new String[] {atmList.get(i).getMa_atm(),
+					DatabaseATM.getNameQuan(atmList.get(i).getQuan()),
+					DatabaseATM.getNamePhuong(atmList.get(i).getPhuong()),
+					atmList.get(i).getVitri(),""+ atmList.get(i).getTongTien()
+					});
+			//alt sip R biến + số ra biến ""+ atmList.get(i).getTongTien()
+		}
 	}
 
 	public void CloseFrame(){

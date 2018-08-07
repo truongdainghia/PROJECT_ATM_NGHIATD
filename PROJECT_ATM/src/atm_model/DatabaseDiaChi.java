@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import com.mysql.jdbc.Statement;
@@ -12,6 +13,7 @@ import ATM_entity.ChooseItem;
 
 public class DatabaseDiaChi {
 	final static Connection conn = ConnectDB.getConnect("localhost", "atm_db", "nghia111", "123456");
+	
 	public static  ArrayList<ChooseItem> getQuan() {
 	 ArrayList<ChooseItem> arrDiaChi = new ArrayList<ChooseItem>();
 	 try {
@@ -76,6 +78,26 @@ public class DatabaseDiaChi {
 			e.printStackTrace(	);
 		}
 		return Phuong;
+	}
+	public static void setSelectedQuan(JComboBox<ChooseItem> cb, int id) {
+		ArrayList<ChooseItem> arrQuan = DatabaseDiaChi.getQuan();
+		for (ChooseItem itemD : arrQuan) {
+			if (itemD.getId() == id) {
+				int indexD = arrQuan.indexOf(itemD) + 1;
+				cb.setSelectedIndex(indexD);	
+				break;
+			}
+		}
+	}
+	public static void setSelectedPhuong(JComboBox<ChooseItem> p, int id,int quan_id) {
+		ArrayList<ChooseItem> arrPhuong = DatabaseDiaChi.getPhuong(quan_id);
+		for (ChooseItem itemD : arrPhuong) {
+			if (itemD.getId() == id) {
+				int indexD = arrPhuong.indexOf(itemD) + 1;
+				p.setSelectedIndex(indexD);	
+				break;
+			}
+		}
 	}
 
 }
