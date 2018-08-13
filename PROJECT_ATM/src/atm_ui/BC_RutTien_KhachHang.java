@@ -45,7 +45,9 @@ public class BC_RutTien_KhachHang extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			Report login = new Report("GIAO DIỆN CHÍNH CỦA QUẢN LÝ THỐNG KÊ");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 

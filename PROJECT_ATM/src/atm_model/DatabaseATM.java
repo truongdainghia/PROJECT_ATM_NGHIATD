@@ -1,6 +1,7 @@
 package atm_model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -98,4 +99,67 @@ public class DatabaseATM {
 			 }
 			 return arrDiaChi;
 			}
+		public static void add(ATM atm) {
+			try {
+				
+			String queryString="insert into tb_atm(Ma_atm,Quan,Phuong,ViTri,Tongtien) values(?,?,?,?,?)";
+			PreparedStatement statement=conn.prepareStatement(queryString);
+			statement.setString(1, atm.getMa_atm());
+			statement.setInt(2, atm.getQuan());
+			statement.setInt(3, atm.getPhuong());
+			statement.setString(4, atm.getVitri());
+			statement.setString(5, atm.getTongTien());
+			
+		
+			
+			
+			
+			
+			int x=statement.executeUpdate();
+			if(x>0)
+			{
+			System.out.println("Lưu OK");
+			}
+			}
+			catch(Exception ex)
+			{
+			ex.printStackTrace();
+			}
+		}
+		public static  void  edit(ATM atm){
+			try {
+				String queryString = "UPDATE tb_atm SET Quan=?, Phuong=?, ViTri=?, Tongtien=?   WHERE  Ma_atm=?";
+				PreparedStatement statement = conn.prepareStatement(queryString);
+				
+				
+				statement.setInt(1, atm.getQuan());
+				statement.setInt(2, atm.getPhuong());
+				statement.setString(3, atm.getVitri());
+				statement.setString(4, atm.getTongTien());
+				statement.setString(5, atm.getMa_atm());
+			
+			
+				int x = statement.executeUpdate();
+				if (x > 0) {
+					System.err.println(" Sửa thành công  .");
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		public static  void deleteATM(String id) {
+			try {
+				String queryString = "delete from tb_atm where Ma_atm=?";
+				PreparedStatement statement = conn.prepareStatement(queryString);
+
+			statement.setString(1, id);
+
+				int x = statement.executeUpdate();
+				if (x > 0) {
+					System.out.println("Delete OK");
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 }

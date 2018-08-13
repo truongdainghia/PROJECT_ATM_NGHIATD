@@ -23,6 +23,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ThucHienRutTien extends JFrame {
+	private String matk;
 	JButton tien1 = new JButton("50.000 VNĐ");
 	JButton tien2 = new JButton("100.000 VNĐ");
 	JButton tien3 = new JButton("500.000 VNĐ");
@@ -63,8 +64,11 @@ public class ThucHienRutTien extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
 			// TODO Auto-generated method stub
-
+			RutTien_ui login = new RutTien_ui("HỆ THỐNG RÚT TIỀN DÀNH CHO KHÁCH HÀNG",matk);
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener tien4Click = new ActionListener() {
@@ -345,16 +349,12 @@ public class ThucHienRutTien extends JFrame {
 		button.add(kc);
 		button.add(clear);
 		
-
 		pnCentercon.add(ruttien1);
 		pnCentercon.add(ruttien2);
 		pnCentercon.add(ruttien3);
 		pnCentercon.add(ruttien44);
 		pnCentercon.add(ruttien4);
 		pnCentercon.add(txtnhaptien);
-		
-		
-		
 
 		pnCenter.add(pnCentercon);
 		pnCenter.add(button);

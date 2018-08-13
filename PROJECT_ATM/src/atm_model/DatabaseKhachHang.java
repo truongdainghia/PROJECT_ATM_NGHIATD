@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import com.mysql.jdbc.Statement;
 
+import ATM_entity.ChooseItem;
 import ATM_entity.KhachHang;
 
 
@@ -139,4 +140,20 @@ public class DatabaseKhachHang {
 			ex.printStackTrace();
 		}
 	}
+	public static  ArrayList<KhachHang> getKh(String soThe, String maPin) {
+		 ArrayList<KhachHang> arrTTKH = new ArrayList<KhachHang>();
+		 try {
+			 String sql = "select *  from customer where Sothe_ATM='"+soThe+"' AND MaPin='"+maPin+"'";
+				Statement stm = (Statement) conn.createStatement();
+				ResultSet rs = stm.executeQuery(sql);
+				while (rs.next()) {
+					
+					
+		 }}
+		  catch(Exception e) {
+				e.printStackTrace(	);
+			 
+		 }
+		 return arrTTKH;
+		}
 }

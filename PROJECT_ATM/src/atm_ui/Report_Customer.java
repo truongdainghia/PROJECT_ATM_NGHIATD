@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -27,6 +28,10 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import ATM_entity.ChooseItem;
+import atm_model.DatabaseDiaChi;
+import atm_model.DatabaseReport_KH;
+
 public class Report_Customer extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
@@ -36,15 +41,20 @@ public class Report_Customer extends JFrame {
 ;
 	JLabel kc1, kc2, kc3, kc4, kc5;
 	JTextField txtMa, txtTen, txtPhuong, txtDiaChi, txtSDT, txtEmail, txtSothe, txtSTK_NH, txtPhone, txtSoDu, txtMaPin;
-	JComboBox setPhuong, setquan;
+	JComboBox<ChooseItem> setPhuong, setquan;
 	DefaultTableModel dm ;
 	JTable tbl;
+	ArrayList<ChooseItem> arrPhuong= new ArrayList<ChooseItem>();
+	ArrayList arrRePort= new ArrayList();
+	
 	ActionListener chucnangkhaccl = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			Report login = new Report("GIAO DIỆN CHÍNH CỦA QUẢN LÝ THỐNG KÊ");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 
@@ -101,8 +111,32 @@ public class Report_Customer extends JFrame {
 		}
 	};
 	
-	
+	public void selectPhuong() {
+		
+		arrPhuong.clear();
+		int itemCount = setPhuong.getItemCount();
+		for(int i =0;i<itemCount;i++) {
+			setPhuong.removeItemAt(0);
+		}
+		ChooseItem itemD = (ChooseItem) setquan.getSelectedItem();
+		int id  = itemD.getId();
+		arrPhuong = DatabaseDiaChi.getPhuong(id);
+		for (ChooseItem o : arrPhuong) {
+			setPhuong.addItem(o);
+		}
+	}
+	ActionListener chonPhuong = new ActionListener() {
 
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			selectPhuong();
+		}
+	};
+	public void select_RePort() {
+		ChooseItem sl = (ChooseItem) setPhuong.getSelectedItem();
+		int id_report = sl.getId();
+		arrRePort = DatabaseReport_KH.getRePort(id_report);
+	}
 	public void addEvents() {
 		// btnchange_pass.addActionListener(changePassClick);
 		chucnangkhac.addActionListener(chucnangkhaccl);
@@ -111,6 +145,7 @@ public class Report_Customer extends JFrame {
 		show.addActionListener(showcl);
 		nhaplai.addActionListener(resetClick);
 		tbl.addMouseListener(tblUserClick);
+		setquan.addActionListener(chonPhuong);
 
 		// tbl.addMouseListener(tblUserClick);
 	}
@@ -210,51 +245,37 @@ public class Report_Customer extends JFrame {
 		pntren.setPreferredSize(new Dimension(100, 30));
 		pnCentercon.add(pntren);
 		
-		 JPanel pnPhuong = new JPanel();
-			pnPhuong.setPreferredSize(new Dimension(100, 50));
-			JLabel lblPhuong = new JLabel("CHỌN PHƯỜNG:  ");
-			lblPhuong.setForeground(Color.BLUE);
-			setPhuong = new JComboBox<String>();
-			setPhuong.setPreferredSize(new Dimension(130, 30));
-
-			setPhuong.addItem("Hòa An");
-			setPhuong.addItem("Hòa Phát");
-			setPhuong.addItem("Hòa Thọ Đông");
-			setPhuong.addItem("Hòa Xuân");
-			setPhuong.addItem("Hòa Cường Bắc");
-			setPhuong.addItem("Hòa Cường Nam");
-			setPhuong.addItem("Hòa Bắc");
-			setPhuong.addItem("Hòa Châu");
-			setPhuong.addItem("Hòa Khương");
-			// setPhuong.addItem("Hòa Khương");
-			// setPhuong.addItem("Hòa Khương");
-			pnPhuong.add(lblPhuong);
-			pnPhuong.add(setPhuong);
-			 pnPhuong.add(setPhuong);
-			 pnCentercon.add(pnPhuong);
+		 
+			
 			 
 			 JPanel pnquan = new JPanel();
-				pnquan.setPreferredSize(new Dimension(130, 20));
-				JLabel lblquan = new JLabel("CHỌN QUẬN:  ");
+				pnquan.setPreferredSize(new Dimension(100, 50));
+				JLabel lblquan = new JLabel("CHỌN QUẬN:      ");
 				lblquan.setForeground(Color.BLUE);
-				setquan = new JComboBox<String>();
-				setquan.setPreferredSize(new Dimension(130, 20));
-
-				setquan.addItem("HOÀNG SA");
-				setquan.addItem("CẨM LỆ");
-				setquan.addItem("HÒA VANG");
-				setquan.addItem("THANH KHÊ");
-				setquan.addItem("SƠN TRÀ");
-				setquan.addItem("NGŨ HÀNH SƠN");
-				setquan.addItem("LIÊN CHIỂU");
-				setquan.addItem("HẢI CHÂU");
-				// setquan.addItem("HẢI CHÂU");
+				setquan = new JComboBox();
+				setquan.setPreferredSize(new Dimension(130, 30));
+				ArrayList<ChooseItem> quan = new ArrayList<ChooseItem>();
+				quan = DatabaseDiaChi.getQuan();
+				for(ChooseItem x : quan) {
+					setquan.addItem(x);
+				}
 
 				pnquan.add(lblquan);
 				pnquan.add(setquan);
 
+				JPanel pnPhuong = new JPanel();
+				pnPhuong.setPreferredSize(new Dimension(100, 50));
+				JLabel lblPhuong = new JLabel("CHỌN PHƯỜNG:  ");
+				lblPhuong.setForeground(Color.BLUE);
+				setPhuong = new JComboBox();
+				
+				setPhuong.setPreferredSize(new Dimension(130, 30));
+				selectPhuong();
+				pnPhuong.add(lblPhuong);
+				pnPhuong.add(setPhuong);
+				 pnPhuong.add(setPhuong);
 				 pnCentercon.add(pnquan);
-				 
+				 pnCentercon.add(pnPhuong);
 			 
 			 // VỊ TRÍ
 			 //add button
@@ -293,12 +314,9 @@ public class Report_Customer extends JFrame {
 		
 		dm.addColumn("Mã KH");
 		dm.addColumn("Tên KH");
-		dm.addColumn("Địa chỉ");
-		dm.addColumn("Phường");
-		dm.addColumn("Quận");
-		dm.addColumn("Thời Gian");
-		dm.addColumn("Mã máy");
-		dm.addColumn("Số tiền");
+		dm.addColumn("Số lần rút");
+		dm.addColumn("Số tiền đã rút");
+		dm.addColumn("Số dư TK");
 		
 		
 		tbl = new JTable(dm);		

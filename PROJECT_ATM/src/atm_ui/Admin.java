@@ -132,6 +132,8 @@ ActionListener enterClick = new ActionListener() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		this.getRootPane().setDefaultButton(enTer);
+		enTer.requestFocus();
 	}
 	public void addControls() {
 		Container con = getContentPane();

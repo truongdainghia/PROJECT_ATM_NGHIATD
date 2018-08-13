@@ -23,11 +23,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import ATM_entity.ATM;
@@ -46,11 +49,16 @@ public class ATM_ManaGer extends JFrame {
 	JButton delete = new JButton("XÓA");
 	JButton reset = new JButton("RESET");
 	JLabel kc1, kc2, kc3, kc4, kc5;
-	JTextField txtMa, txtTen, txtPhuong, txtDiaChi, txtSDT, txtEmail, txtSothe, txtSTK_NH, txtPhone, txtSoDu, txtMaPin;
+	JTextField txtMa,  txtPhuong  , txtSoDu,txtviTri;
 	JComboBox<ChooseItem> setPhuong, setquan;
 	DefaultTableModel dm ;
 	JTable tbl;
-	private ArrayList<ChooseItem> arrPhuong = new ArrayList<>();
+	private  ArrayList<ChooseItem> arrPhuong = new ArrayList<>();
+//	private ArrayList<ChooseItem> arrPhuong1 = new ArrayList<>();
+	private ArrayList<ATM> arrATM = new ArrayList<ATM>();
+	private DatabaseATM connectATM = new DatabaseATM();
+	
+	
 	ActionListener chucnangkhaccl = new ActionListener() {
 
 		@Override
@@ -59,6 +67,8 @@ public class ATM_ManaGer extends JFrame {
 			Admin_Manager login1 = new Admin_Manager("HỆ THỐNG ADMIN");
 			login1.showWindow();
 			CloseFrame();
+			arrATM.clear();
+			
 		}
 	};
 
@@ -77,7 +87,56 @@ public class ATM_ManaGer extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			int ktTonTaiMaATM = 0;
+			int ktNhapTien =0;
+			int ktSoTien = 0;
+			String maATM = txtMa.getText();
+			ChooseItem check_district = (ChooseItem) setquan.getSelectedItem();
+			int id_quan = check_district.getId();
+			
+			ChooseItem check_ward = (ChooseItem) setPhuong.getSelectedItem();
+			int id_phuong = check_ward.getId();
+			String vitri = txtviTri.getText();
+			String tongtien = txtSoDu.getText();
+			
+			arrATM = DatabaseATM.selectATM();
+			for(int i=0;i<arrATM.size();i++) {
+				if(maATM.equals(arrATM.get(i).getMa_atm())) {
+					ktTonTaiMaATM = 1;
+				}
+			}
+			try {
+				
+				ktSoTien = Integer.parseInt(tongtien);
+			}catch (Exception ex){
+				ktNhapTien = 1;
+			}
+			if(maATM.isEmpty()||vitri.isEmpty()||tongtien.isEmpty()) {
+				String msg = "Vui lòng nhập đầy đủ thông tin";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Thiếu", JOptionPane.INFORMATION_MESSAGE);
+			}else if(ktTonTaiMaATM>0) {
+				String msg = "Mã ATM đã tồn tại";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Sai", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(ktNhapTien>0) {
+				String msg = "Tiền nhập vào phải là số";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Sai", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(ktSoTien>900000000) {
+				String msg = "Tiền nhập vào không vượt quá 900 triệu";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Sai", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(ktSoTien<10000000) {
+				String msg = "Tiền nhập vào không được ít hơn 10 triệu";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Sai", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+			DatabaseATM.add(new ATM(maATM,id_quan,id_phuong,vitri,tongtien));
+			arrATM.clear();
+			getTable();
+			edit.setEnabled(false);
+			delete.setEnabled(false);
+			}
 		}
 	};
 	ActionListener editClick = new ActionListener() {
@@ -85,7 +144,56 @@ public class ATM_ManaGer extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			
+			int ktNhapTien =0;
+			int ktSoTien = 0;
+			String maATM = txtMa.getText();
+			ChooseItem check_district = (ChooseItem) setquan.getSelectedItem();
+			int id_quan = check_district.getId();
+			
+			ChooseItem check_ward = (ChooseItem) setPhuong.getSelectedItem();
+			int id_phuong = check_ward.getId();
+			String vitri = txtviTri.getText();
+			String tongtien = txtSoDu.getText();
+			
+			arrATM = DatabaseATM.selectATM();
+			
+			try {
+				
+				ktSoTien = Integer.parseInt(tongtien);
+			}catch (Exception ex){
+				ktNhapTien = 1;
+			}
+			if(maATM.isEmpty()||vitri.isEmpty()||tongtien.isEmpty()) {
+				String msg = "Vui lòng nhập đầy đủ thông tin";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Thiếu", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(ktNhapTien>0) {
+				String msg = "Tiền nhập vào phải là số,Hoặc không quá 900 triệu";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Sai", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(ktSoTien>900000000) {
+				String msg = "Tiền nhập vào không vượt quá 900 triệu";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Sai", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(ktSoTien<10000000) {
+				String msg = "Tiền nhập vào không được ít hơn 10 triệu";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi Nhập Sai", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				String msg = " Sửa thành công!!";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
+			DatabaseATM.edit(new ATM(maATM,id_quan,id_phuong,vitri,tongtien));
+			arrATM.clear();
+			getTable();
+			txtMa.setText("");
+			txtviTri.setText("");
+			txtSoDu.setText("");
+			txtMa.setEditable(true);
+			add.setEnabled(true);
+			edit.setEnabled(false);
+			delete.setEnabled(false);
+			}
 		}
 	};
 	ActionListener deleteClick = new ActionListener() {
@@ -93,15 +201,37 @@ public class ATM_ManaGer extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			String id_atm = txtMa.getText();
+			if(id_atm.isEmpty()) {
+				String msg = " Bạn chưa chọn mã ATM nhé!!";
+				JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				int xoa1 = JOptionPane.YES_NO_OPTION;
+				int xoa2 = JOptionPane.showConfirmDialog(null,"Bạn thật sự muốn xóa không", "Message",xoa1);
+				if(xoa2==JOptionPane.YES_OPTION) {
+					DatabaseATM.deleteATM(id_atm);
+					String msg = " Xóa thành công!!";
+					JOptionPane.showMessageDialog(null, msg, "HIHI", JOptionPane.INFORMATION_MESSAGE);
+					arrATM.clear();
+					getTable();
+				}
+				
+			}
 		}
 	};
 	ActionListener resetClick = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 
+			txtMa.setText("");
+			txtviTri.setText("");
+			txtSoDu.setText("");
+			txtMa.setEditable(true);
+			add.setEnabled(true);
+			edit.setEnabled(false);
+			delete.setEnabled(false);
 		}
 	};
 	public void selectPhuong() {
@@ -113,8 +243,8 @@ public class ATM_ManaGer extends JFrame {
 		ChooseItem itemD = (ChooseItem) setquan.getSelectedItem();
 		int id  = itemD.getId();
 		arrPhuong = DatabaseDiaChi.getPhuong(id);
-		for (ChooseItem o : arrPhuong) {
-			setPhuong.addItem(o);
+		for (ChooseItem x : arrPhuong) {
+			setPhuong.addItem(x);
 		}
 	}
 	ActionListener chonPhuong = new ActionListener() {
@@ -153,8 +283,47 @@ public class ATM_ManaGer extends JFrame {
 		}
 	};
 	
-	
+	ListSelectionListener  ChooseRow = new ListSelectionListener(){
 
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			// TODO Auto-generated method stub
+			int i =tbl.getSelectedRow();
+			if(i>=0 && !e.getValueIsAdjusting()) {
+				String ma = tbl.getValueAt(i, 0).toString();
+				
+				setText(ma);
+				add.setEnabled(false);
+				for (int j=0;j< arrATM.size();j++) {
+					if(ma.equals(arrATM.get(i).getMa_atm())) {
+						int stt = i;
+					}
+				}
+			}
+		}
+		
+	
+	};
+	private void setText(String i) {
+		arrATM = connectATM.selectATM();
+		for (ATM kh : arrATM) {
+			if(i.equals(kh.getMa_atm())) {
+				txtMa.setText(kh.getMa_atm());
+				txtviTri.setText(kh.getVitri());
+				txtSoDu.setText(kh.getTongTien());
+
+				
+				//các trường không được sửa 
+				
+				txtMa.setEditable(false);
+			
+//				txtSoDu.setEditable(false);
+				add.setFocusable(false);
+				edit.setEnabled(true);
+				delete.setEnabled(true);
+	}
+		}
+	}
 	public void addEvents() {
 		// btnchange_pass.addActionListener(changePassClick);
 		chucnangkhac.addActionListener(chucnangkhaccl);
@@ -163,7 +332,7 @@ public class ATM_ManaGer extends JFrame {
 		edit.addActionListener(editClick);
 		delete.addActionListener(deleteClick);
 		reset.addActionListener(resetClick);
-		tbl.addMouseListener(tblUserClick);
+		tbl.getSelectionModel().addListSelectionListener(ChooseRow);
 		setquan.addActionListener(chonPhuong);
 
 		// tbl.addMouseListener(tblUserClick);
@@ -173,6 +342,8 @@ public class ATM_ManaGer extends JFrame {
 		super(title);
 		addControls();
 		addEvents();
+		edit.setEnabled(false);
+		delete.setEnabled(false);
 	}
 
 	public void showWindow() {
@@ -285,9 +456,10 @@ public class ATM_ManaGer extends JFrame {
 			lblPhuong.setForeground(Color.BLUE);
 			setPhuong = new JComboBox();
 			setPhuong.setPreferredSize(new Dimension(100, 20));
+			selectPhuong();
 			pnPhuong.add(lblPhuong);
 			pnPhuong.add(setPhuong);
-			 pnPhuong.add(setPhuong);
+			 
 			 pnCentercon.add(pnPhuong);
 			 
 			 // VỊ TRÍ
@@ -296,10 +468,10 @@ public class ATM_ManaGer extends JFrame {
 				lblvitri.setForeground(Color.blue);
 				pnMaKH.setOpaque(false);
 				// lblMaKH.setPreferredSize(new Dimension(80, 10));
-				txtMa = new JTextField(25);
-				txtMa.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+				txtviTri = new JTextField(25);
+				txtviTri.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 				pnViTri.add(lblvitri);
-				pnViTri.add(txtMa);
+				pnViTri.add(txtviTri);
 
 				pnCentercon.add(pnViTri);
 				
@@ -308,32 +480,14 @@ public class ATM_ManaGer extends JFrame {
 				lbltongtien.setForeground(Color.blue);
 				pnTongTien.setOpaque(false);
 				// lblMaKH.setPreferredSize(new Dimension(80, 10));
-				txtMa = new JTextField(25);
-				txtMa.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+				txtSoDu = new JTextField(25);
+				txtSoDu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 				pnTongTien.add(lbltongtien);
-				pnTongTien.add(txtMa);
+				pnTongTien.add(txtSoDu);
 
 				pnCentercon.add(pnTongTien);
 				
 
-		// tên KH
-		
-
-		// email
-		
-		// số tài khoản ngân hàng
-		
-		// pnCentercon.add(pnSoThe);
-
-		JPanel pnTK = new JPanel();
-		pnTK.setOpaque(false);
-		JLabel naneTK = new JLabel("SỐ TK NGÂN HÀNG :");
-		naneTK.setForeground(Color.BLUE);
-		txtSTK_NH = new JTextField(15);
-		txtSTK_NH.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-		pnTK.add(naneTK);
-		pnTK.add(txtSTK_NH);
-		
 		JPanel pnCenterRight = new JPanel();
 		pnCenterRight.setPreferredSize(new Dimension(150, 50));
 		pnCenterRight.setLayout(new BoxLayout(pnCenterRight, BoxLayout.Y_AXIS));
@@ -401,6 +555,8 @@ public class ATM_ManaGer extends JFrame {
 		dm.addColumn("Phường");
 		dm.addColumn("Vị Trí");
 		dm.addColumn("Tổng tiền");
+		ArrayList<ATM> atmList = DatabaseATM.selectATM();
+		atmList.clear();
 		this.getTable();
 		
 		tbl = new JTable(dm);		

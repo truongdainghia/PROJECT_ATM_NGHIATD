@@ -55,7 +55,7 @@ public class DatabaseDiaChi {
 		String Quan = "";
 		try {
 			Statement stm = (Statement) conn.createStatement();
-			String sql = "SELECT * from tb_district WHERE id = " + id;
+			String sql = "SELECT * from tb_district WHERE id = '"+id+"'" ;
 			ResultSet rs = stm.executeQuery(sql);
 			while(rs.next()) {
 				Quan = rs.getString("Ten");

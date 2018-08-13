@@ -51,6 +51,8 @@ public class Customer_CRUD extends JFrame {
 	private static int stt = 0;
 	JTable tbl;
 	private ArrayList<ChooseItem> arrPhuong = new ArrayList<>();
+	private ArrayList dsIdQuan = new ArrayList();
+	
 //	private ArrayList<ChooseItem> arrPhuong1 = new ArrayList<>();
 	private ArrayList<KhachHang> arrKH = new ArrayList<KhachHang>();
 	private DatabaseKhachHang connectKH = new DatabaseKhachHang();
@@ -78,6 +80,7 @@ public class Customer_CRUD extends JFrame {
 			Admin_Manager login1 = new Admin_Manager("HỆ THỐNG ADMIN");
 			login1.showWindow();
 			CloseFrame();
+			arrKH.clear();
 		}
 	};
 
@@ -117,6 +120,7 @@ public class Customer_CRUD extends JFrame {
 			String sothe= txtSothe.getText();
 			String soTK_NH= txtSoDu.getText();
 			String sodu= txtSTK_NH.getText();
+			int checkMaPin = maPin.length();
 			int checkSizeMa = maKh.length();
 			int checkSizeSothe = sothe.length();
 			int checkSizeSTK_NH = soTK_NH.length();
@@ -125,6 +129,7 @@ public class Customer_CRUD extends JFrame {
 			int checkSoThe = 0;
 			int checkSoTK_NH = 0;
 			int CheckSotien = 0;
+			int checkkituPin = 0;
 			
 			if(!sodu.isEmpty()) {
 				checksodu =	Integer.parseInt(sodu);
@@ -148,6 +153,11 @@ public class Customer_CRUD extends JFrame {
 				Double soTheATM = Double.parseDouble(sothe);
 			}catch (Exception ex){
 				checkSoThe = 1;
+			}
+			try {
+				Double testpin = Double.parseDouble(maPin);
+			}catch (Exception ex) {
+				checkkituPin = 1;
 			}
 			// kiểm tra k được nhập chữ cho số tk
 			try {
@@ -188,6 +198,15 @@ public class Customer_CRUD extends JFrame {
 						String msg = " Số thẻ không được nhập kí tự!!";
 						JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
 					}
+					else if(checkMaPin!=6){
+						String msg = " Mã pin phải 6 số!!";
+						JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if(checkkituPin>0){
+						String msg = " Mã pin phải là số!!";
+						JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
+					}
+					
 					else if(checkSizeSTK_NH!=14){
 						String msg = " Số tài khoản phải là 14 số!!";
 						JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
@@ -197,7 +216,7 @@ public class Customer_CRUD extends JFrame {
 						JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
 					}
 					else if(CheckSotien>0){
-						String msg = " Số tiền không được nhập kí tự,phải là số!!";
+						String msg = " Số tài khoản không được nhập kí tự,phải là số!!";
 						JOptionPane.showMessageDialog(null, msg, "Lỗi nhập", JOptionPane.INFORMATION_MESSAGE);
 					}
 					else if(checksodu< 50000){
@@ -432,55 +451,35 @@ public class Customer_CRUD extends JFrame {
 		}
 	};
 
-//	MouseListener tblUserClick = new MouseListener() {
-//
-//		@Override
-//		public void mouseReleased(MouseEvent e) {
-//
-//		}
-//
-//		@Override
-//		public void mousePressed(MouseEvent e) {
-//
-//		}
-//
-//		@Override
-//		public void mouseExited(MouseEvent e) {
-//
-//		}
-//
-//		@Override
-//		public void mouseEntered(MouseEvent e) {
-//
-//		}
-//
-//		@Override
-//		public void mouseClicked(MouseEvent e) {
-//
-//		}
-//	};
+	MouseListener tblUserClick = new MouseListener() {
 
-//	MouseAdapter chonHang = new MouseAdapter() {
-//		public void mouseClicked(MouseEvent e) {
-//			int i = tbl.getSelectedRow();
-//			String codeString = (String) tbl.getModel().getValueAt(i, 5);
-//			int code = Integer.parseInt(codeString);
-//			ArrayList<KhachHang> kh = DatabaseKhachHang.getKHbyId(code);
-//			for (KhachHang x :kh) {
-//			txtMa.setText(x.getMaKH());
-//			txtTen.setText(x.getTenKH());
-//			txtMaPin.setText(x.getmaPin());
-//			DatabaseDiaChi.setSelectedQuan(setquan, x.getQuan());
-//			DatabaseDiaChi.setSelectedPhuong(setPhuong,x.getPhuong(), x.getQuan());
-//			txtDiaChi.setText(x.getDiaCHi());
-//			txtPhone.setText(x.getSDT());
-//			txtEmail.setText(x.getEmail());
-//			txtSothe.setText(x.getSothe_ATM());
-//			txtSoDu.setText(x.getSTk_NH());
-//			txtSTK_NH.setText(x.getSoTien());
-//		}
-//		}
-//		};
+		@Override
+		public void mouseReleased(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+
+		}
+	};
+
+
 	// làm click vào 1 hàng nào đó
 	ListSelectionListener  ChooseRow  = new ListSelectionListener() {
 		
@@ -507,6 +506,7 @@ public class Customer_CRUD extends JFrame {
 		}};
 
 		private void setText(String i) {
+			int row = tbl.getSelectedRow();
 			// TODO Auto-generated method stub
 			arrKH = connectKH.selectKhachHang();
 			for (KhachHang kh : arrKH) {
@@ -514,10 +514,17 @@ public class Customer_CRUD extends JFrame {
 					txtMa.setText(kh.getMaKH());
 					txtTen.setText(kh.getTenKH());
 					txtMaPin.setText(kh.getmaPin());
-//					DatabaseDiaChi.setSelectedQuan(setquan, kh.getQuan());
-//					DatabaseDiaChi.setSelectedPhuong(setPhuong,kh.getPhuong(), kh.getQuan());
+					Object quan = (Object) tbl.getValueAt(row, 6);
+					ChooseItem itemQuan = (ChooseItem) setquan.getSelectedItem();
+					int id_quan = itemQuan.getId();
+					
+
+					 }
+				
+					
+					
 					txtDiaChi.setText(kh.getDiaCHi());
-					txtPhone.setText(kh.getSDT());
+					txtPhone.setText(0+kh.getSDT());
 					txtEmail.setText(kh.getEmail());
 					txtSothe.setText(kh.getSothe_ATM());
 					txtSoDu.setText(kh.getSTk_NH());
@@ -534,7 +541,7 @@ public class Customer_CRUD extends JFrame {
 		
 				}
 			}
-		}
+		
 	;
 //	// làm danh sách cho phường
 	public void selectPhuong() {
@@ -575,6 +582,8 @@ public class Customer_CRUD extends JFrame {
 		super(title);
 		addControls();
 		addEvents();
+		edit.setEnabled(false);
+		delete.setEnabled(false);
 	}
 
 	public void showWindow() {
@@ -714,10 +723,9 @@ public class Customer_CRUD extends JFrame {
 		//setPhuong.addItem("Chọn Phường"); có thể hoặc k
 		pnPhuong.add(lblPhuong);
 		pnPhuong.add(setPhuong);
-		// pnPhuong.add(setPhuong);
-		// pnCentercon.add(pnPhuong);
+	
 
-		// chọn số đts
+		// chọn số đt
 		JPanel pnPhone = new JPanel();
 		pnPhone.setOpaque(false);
 		JLabel nanePhone = new JLabel("        ĐIỆN THOẠI :");
@@ -754,7 +762,7 @@ public class Customer_CRUD extends JFrame {
 
 		JPanel pnTK = new JPanel();
 		
-		JLabel naneTK = new JLabel("SỐ DƯ :");
+		JLabel naneTK = new JLabel("                 SỐ DƯ :   ");
 		naneTK.setForeground(Color.BLUE);
 		txtSTK_NH = new JTextField(15);
 		txtSTK_NH.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
@@ -867,6 +875,8 @@ public class Customer_CRUD extends JFrame {
 		dm.addColumn("Email");	
 		dm.addColumn("Số TK Ngân Hàng");
 		dm.addColumn("Số dư");
+		ArrayList<KhachHang> khList = DatabaseKhachHang.selectKhachHang();
+		khList.clear();
 		this.getTable();
 		
 		
@@ -880,13 +890,15 @@ public class Customer_CRUD extends JFrame {
 	}
 	public void getTable() {
 		ArrayList<KhachHang> khList = DatabaseKhachHang.selectKhachHang();
+		
 		dm.setRowCount(0);
+		
 		for(int i = 0; i<khList.size();i++) {
 			
 			dm.addRow(new String[] {khList.get(i).getMaKH(),khList.get(i).getTenKH(),
 					DatabaseDiaChi.getNameQuan(khList.get(i).getQuan()),
 					DatabaseDiaChi.getNamePhuong(khList.get(i).getPhuong()),
-					khList.get(i).getDiaCHi(),khList.get(i).getSDT(),khList.get(i).getEmail(),khList.get(i).getSTk_NH(),khList.get(i).getSoTien()});
+					khList.get(i).getDiaCHi(),"0"+khList.get(i).getSDT(),khList.get(i).getEmail(),khList.get(i).getSTk_NH(),khList.get(i).getSoTien()});
 			//alt sip R
 		}
 	}

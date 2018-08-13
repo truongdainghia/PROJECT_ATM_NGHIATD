@@ -31,18 +31,21 @@ public class Report extends JFrame {
 	JButton tien3 = new JButton("CHỨC NĂNG KHÁC");
 
 	JButton tien4 = new JButton("BÁO CÁO TÌNH TRẠNG ATM");
-	JButton tien5 = new JButton("BÁO CÁO RÚT TIỀN CÁC MÁY");
+	JButton tien5 = new JButton("BÁO CÁO RÚT TIỀN ATM");
 	JButton sokhac = new JButton("THOÁT");
 	
 	JTextField txtnhap ,txtnhaptien;
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+	
+	
 	ActionListener tien1Click = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-
+			Report_Customer login = new Report_Customer("GIAO DIỆN BÁO CÁO KHÁCH HÀNG");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 
@@ -51,7 +54,9 @@ public class Report extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			BC_RutTien_KhachHang login = new BC_RutTien_KhachHang("BÁO CÁO RÚT TIỀN CỦA KHÁCH HÀNG");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener tien3Click = new ActionListener() {
@@ -59,7 +64,9 @@ public class Report extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			Admin_Manager login1 = new Admin_Manager("HỆ THỐNG ADMIN");
+			login1.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener gdKhacClick = new ActionListener() {
@@ -67,7 +74,7 @@ public class Report extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+		
 		}
 	};
 	ActionListener tien4Click = new ActionListener() {
@@ -83,7 +90,8 @@ public class Report extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			ATM_STATUS login = new ATM_STATUS("BÁO CÁO TÌNH TRẠNG ATM");
+			login.showWindow();
 		}
 	};
 	ActionListener sokhacClick = new ActionListener() {
