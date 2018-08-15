@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -28,9 +29,10 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import ATM_entity.ChooseItem;
 import atm_model.DatabaseDiaChi;
 import atm_model.DatabaseReport_KH;
+import ATM_entity.*;
+import ATM_entity.Transaction;
 
 public class Report_Customer extends JFrame {
 
@@ -45,7 +47,8 @@ public class Report_Customer extends JFrame {
 	DefaultTableModel dm ;
 	JTable tbl;
 	ArrayList<ChooseItem> arrPhuong= new ArrayList<ChooseItem>();
-	ArrayList arrRePort= new ArrayList();
+	ArrayList<Transaction> arrRePort= new ArrayList<Transaction>();
+	
 	
 	ActionListener chucnangkhaccl = new ActionListener() {
 
@@ -132,16 +135,47 @@ public class Report_Customer extends JFrame {
 			selectPhuong();
 		}
 	};
+	ActionListener select_RePort1 = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			select_RePort();
+		}
+	};
+	
 	public void select_RePort() {
-		ChooseItem sl = (ChooseItem) setPhuong.getSelectedItem();
-		int id_report = sl.getId();
-		arrRePort = DatabaseReport_KH.getRePort(id_report);
+		try {
+		//String quanRP = setquan.getSelectedItem().toString();
+//		String phuongRP = setPhuong.getSelectedItem().toString();
+		
+		ChooseItem check_district = (ChooseItem) setquan.getSelectedItem();
+		int id_quan = check_district.getId();
+		
+		ChooseItem check_ward = (ChooseItem) setPhuong.getSelectedItem();
+		int id_phuong = check_ward.getId();
+		arrRePort.clear();
+		
+		arrRePort = DatabaseReport_KH.getRePort(id_quan,id_phuong);
+		dm.setRowCount(0);
+		for(Transaction x :  arrRePort) {
+			DecimalFormat df = new DecimalFormat("###,###,###");
+			String soTien = df.format(x.getTongTien())+"VNĐ";
+			int soDuThe = Integer.parseInt(x.getSoTien());
+			String soDu = df.format(soDuThe)+"VNĐ";
+			String[] row = { x.getMaKH(), x.getTenKH(), Integer.toString(x.getSoLan())+" Lần", soTien, soDu };
+			dm.addRow(row);	
+		}}catch (Exception ex) {
+
+		}
 	}
+		
+//		arrRePort = DatabaseReport_KH.getRePort(id_report);
+	
 	public void addEvents() {
 		// btnchange_pass.addActionListener(changePassClick);
 		chucnangkhac.addActionListener(chucnangkhaccl);
 		thoat.addActionListener(thoatcl);
-		
+		setPhuong.addActionListener(select_RePort1);
 		show.addActionListener(showcl);
 		nhaplai.addActionListener(resetClick);
 		tbl.addMouseListener(tblUserClick);
@@ -154,6 +188,7 @@ public class Report_Customer extends JFrame {
 		super(title);
 		addControls();
 		addEvents();
+		//select_RePort();
 	}
 
 	public void showWindow() {
@@ -317,7 +352,7 @@ public class Report_Customer extends JFrame {
 		dm.addColumn("Số lần rút");
 		dm.addColumn("Số tiền đã rút");
 		dm.addColumn("Số dư TK");
-		
+		this.select_RePort();
 		
 		tbl = new JTable(dm);		
 		JScrollPane sc = new JScrollPane(tbl);

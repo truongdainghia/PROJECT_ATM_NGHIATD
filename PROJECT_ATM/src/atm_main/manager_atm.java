@@ -26,12 +26,12 @@ public class manager_atm {
 //		login.showWindow();
 //		Report login = new Report("GIAO DIỆN CHÍNH CỦA QUẢN LÝ THỐNG KÊ");
 //		login.showWindow();
-		Report_Customer login = new Report_Customer("GIAO DIỆN BÁO CÁO KHÁCH HÀNG");
-		login.showWindow();
+//		Report_Customer login = new Report_Customer("GIAO DIỆN BÁO CÁO KHÁCH HÀNG");
+//		login.showWindow();
 //		BC_RutTien_KhachHang login = new BC_RutTien_KhachHang("BÁO CÁO RÚT TIỀN CỦA KHÁCH HÀNG");
 //		login.showWindow();
-//		ATM_STATUS login = new ATM_STATUS("BÁO CÁO TÌNH TRẠNG ATM");
-//		login.showWindow();
+		ATM_STATUS login = new ATM_STATUS("BÁO CÁO TÌNH TRẠNG ATM");
+		login.showWindow();
 //		BC_Ruttien_ATM login = new BC_Ruttien_ATM("BÁO CÁO TÌNH TRẠNG ATM");
 //			login.showWindow();
 //		layout_ruttien  login= new layout_ruttien("", null);

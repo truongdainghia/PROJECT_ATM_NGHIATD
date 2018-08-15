@@ -82,7 +82,9 @@ public class Report extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			ATM_STATUS login1 = new ATM_STATUS("HỆ THỐNG MÁY ATM");
+			login1.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener tien5Click = new ActionListener() {
@@ -92,6 +94,7 @@ public class Report extends JFrame {
 			// TODO Auto-generated method stub
 			ATM_STATUS login = new ATM_STATUS("BÁO CÁO TÌNH TRẠNG ATM");
 			login.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener sokhacClick = new ActionListener() {
@@ -99,7 +102,9 @@ public class Report extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			Admin login1 = new Admin("HỆ THỐNG ADMIN");
+		login1.showWindow();
+		CloseFrame();
 		}
 	};
 	ActionListener cancelClick = new ActionListener() {
