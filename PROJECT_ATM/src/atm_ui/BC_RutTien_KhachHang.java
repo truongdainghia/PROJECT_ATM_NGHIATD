@@ -52,6 +52,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings({ "unused", "serial" })
 public class BC_RutTien_KhachHang extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
@@ -61,6 +62,7 @@ public class BC_RutTien_KhachHang extends JFrame {
 ;
 	JLabel kc1, kc2, kc3, kc4, kc5;
 	JTextField txtTen, txtnhapMA,txtTime;
+	@SuppressWarnings("rawtypes")
 	JComboBox cboThang, cboNam;
 	DefaultTableModel dm ;
 	JTable tbl;
@@ -72,7 +74,6 @@ public class BC_RutTien_KhachHang extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			Report login = new Report("GIAO DIỆN CHÍNH CỦA QUẢN LÝ THỐNG KÊ");
 			login.showWindow();
 			CloseFrame();
@@ -83,7 +84,6 @@ public class BC_RutTien_KhachHang extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 	};
@@ -91,7 +91,7 @@ public class BC_RutTien_KhachHang extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			
 
 		}
 	};
@@ -99,16 +99,15 @@ public class BC_RutTien_KhachHang extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+		
 
 		}
 	};
 	
 	ActionListener selectKH = new ActionListener() {
 
-		@Override
+		
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			selectKH();
 		}
 	};
@@ -117,7 +116,7 @@ public class BC_RutTien_KhachHang extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			
 			selectKHTheoThang();
 		}
 	};

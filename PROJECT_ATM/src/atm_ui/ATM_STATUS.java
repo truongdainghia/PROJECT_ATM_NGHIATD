@@ -478,11 +478,6 @@ public class ATM_STATUS extends JFrame {
 		pnduoi.add(pnduoiphai);
 		pnCentercon.add(pnduoi);
 
-		JPanel pnday = new JPanel();
-		JLabel lblday = new JLabel("Tổng số tiền tất cả các máy là:");
-		txtday = new JTextField(15);
-		pnday.add(lblday);
-		pnday.add(txtday);
 
 		// VỊ TRÍ
 		// add button
@@ -497,7 +492,7 @@ public class ATM_STATUS extends JFrame {
 		Actions.add(kca1);
 		Actions.add(nhaplai);
 		pnCentercon.add(Actions);
-		pnCentercon.add(pnday);
+		//pnCentercon.add(pnday);
 		selectPhuong();
 		selectDuongPho();
 		selectMaMay();

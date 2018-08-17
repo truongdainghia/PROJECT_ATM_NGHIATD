@@ -3,6 +3,7 @@ encoding//src/atm_main/manager_atm.java=UTF-8
 encoding//src/atm_model/DatabaseATM.java=UTF-8
 encoding//src/atm_model/DatabaseGiaoDich.java=UTF-8
 encoding//src/atm_model/DatabaseKhachHang.java=UTF-8
+encoding//src/atm_model/DatabasebaocaoATM.java=UTF-8
 encoding//src/atm_model/User_Admin_Model.java=UTF-8
 encoding//src/atm_ui/ATM_ManaGer.java=UTF-8
 encoding//src/atm_ui/ATM_STATUS.java=UTF-8
