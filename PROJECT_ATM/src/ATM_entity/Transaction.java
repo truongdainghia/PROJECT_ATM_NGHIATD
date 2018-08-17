@@ -1,10 +1,13 @@
 package ATM_entity;
 
-public class Transaction {
+public class Transaction extends GiaoDich {
 	private	String MaKH ,TenKH,DiaChi,Sothe_ATM,STk_NH,SoTien;
 	private int soLan,Quan,Phuong ;
 	private int tongTien;
-	
+	public Transaction() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	public Transaction(String maKH, String tenKH, int quan, int phuong, String diaChi, String sothe_ATM,
 			String sTk_NH, int soLan, int tongTien, String soTien) {
@@ -21,9 +24,15 @@ public class Transaction {
 		this.tongTien = tongTien;
 		SoTien = soTien;
 	}
-	public Transaction() {
-		super();
-		// TODO Auto-generated constructor stub
+
+	
+	
+	public Transaction(String maKH1,String maGD,String sothe_ATM,String maMay,String ThoiGian,String soTien) {
+		 
+		super(maGD,sothe_ATM,maMay,ThoiGian,soTien,maKH1);
+	
+		this.MaKH = maKH1;
+		
 	}
 	public String getMaKH() {
 		return MaKH;

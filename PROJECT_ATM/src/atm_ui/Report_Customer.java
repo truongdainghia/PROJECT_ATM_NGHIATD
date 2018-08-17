@@ -161,7 +161,8 @@ public class Report_Customer extends JFrame {
 			DecimalFormat df = new DecimalFormat("###,###,###");
 			String soTien = df.format(x.getTongTien())+"VNĐ";
 			int soDuThe = Integer.parseInt(x.getSoTien());
-			String soDu = df.format(soDuThe)+"VNĐ";
+			String soDu = x.getSoTien()+"VNĐ";
+			
 			String[] row = { x.getMaKH(), x.getTenKH(), Integer.toString(x.getSoLan())+" Lần", soTien, soDu };
 			dm.addRow(row);	
 		}}catch (Exception ex) {
@@ -188,7 +189,7 @@ public class Report_Customer extends JFrame {
 		super(title);
 		addControls();
 		addEvents();
-		//select_RePort();
+		select_RePort();
 	}
 
 	public void showWindow() {

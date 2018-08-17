@@ -1,16 +1,20 @@
 package ATM_entity;
 
 public class GiaoDich {
-	protected String maGD ,soThe,maATM,thoiGian,soTien;
+	protected String maGD ,soThe,maATM,thoiGian,soTien,maKH;
 
 
-public GiaoDich(String maGD, String soThe, String maATM, String thoiGian, String soTien) {
+public GiaoDich(String maGD, String soThe, String maATM, String thoiGian, String soTien ,String maKH) {
 	super();
 	this.maGD = maGD;
 	this.soThe = soThe;
 	this.maATM = maATM;
 	this.thoiGian = thoiGian;
 	this.soTien = soTien;
+	this.maKH = maKH;
+}
+public GiaoDich() {
+	// TODO Auto-generated constructor stub
 }
 public String getMaGD() {
 	return maGD;

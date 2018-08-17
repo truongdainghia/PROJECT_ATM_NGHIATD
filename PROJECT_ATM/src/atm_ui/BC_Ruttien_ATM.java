@@ -5,6 +5,7 @@
 package atm_ui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -14,9 +15,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,25 +28,43 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
+import ATM_entity.ATM;
+import ATM_entity.ChooseItem;
+import ATM_entity.GiaoDich;
+import atm_model.DatabaseDiaChi;
+import atm_model.DatabasebaocaoATM;
 
 public class BC_Ruttien_ATM extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
 	JButton thoat = new JButton("HỦY BỎ GIAO DỊCH");
-	JButton show = new JButton("HIỂN THỊ");
-	JButton nhaplai = new JButton("RESET");
+
 	JButton all = new JButton("XEM TẤT CẢ");
 ;
 	JLabel kc1, kc2, kc3, kc4, kc5;
 	JTextField txttrenPhai,txttrenphai3,txtmay,txtday,txtdiachi,txtphai2,txtthang,txtchitiet1,txtchitiet2;
-	JComboBox setPhuong, setquan;
+	JComboBox cboPhuong, cboQuan, cboDuongPho, cboMayATM;
 	DefaultTableModel dm ;
 	JTable tbl;
+	JComboBox cboThang, cboNam;
+	ArrayList<GiaoDich> arrRePort = new ArrayList<GiaoDich>();
+	JButton btnShowThang,btnHuyThang,btnShowNam,btnHuyNam;
+	private JDateChooser dateStart, dateEnd;
+	private ArrayList<ChooseItem> arrPhuong = new ArrayList<>();
+	private ArrayList<ChooseItem> arrDuongPho = new ArrayList<>();
+	private ArrayList<String> arrMaATM = new ArrayList<>();
 	ActionListener chucnangkhaccl = new ActionListener() {
 
 		@Override
@@ -86,7 +108,112 @@ public class BC_Ruttien_ATM extends JFrame {
 
 		}
 	};
+	ActionListener selectMayATM = new ActionListener() {
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			selectMaMay();
+
+		}
+	};
+	ActionListener selectPhuong = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			selectPhuong();
+
+		}
+	};
+	ActionListener selectDuongPho = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			selectDuongPho();
+
+		}
+	};
+//	ActionListener selectListATM = new ActionListener() {
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			// TODO Auto-generated method stub
+//			danhSachATM();
+//		}
+//	};
+
+	public void selectPhuong() {
+		try {
+			arrPhuong.clear();
+			int itemCount = cboPhuong.getItemCount();
+			for (int i = 0; i < itemCount; i++) {
+				cboPhuong.removeItemAt(0);
+			}
+			ChooseItem itemD = (ChooseItem) cboQuan.getSelectedItem();
+			int id = itemD.getId();
+			arrPhuong = DatabaseDiaChi.getPhuong(id);
+			for (ChooseItem o : arrPhuong) {
+				cboPhuong.addItem(o);
+			}
+		} catch (Exception ex) {
+
+		}
+
+	}
+
+	public void selectDuongPho() {
+		try {
+			arrDuongPho.clear();
+			int itemCount = cboDuongPho.getItemCount();
+			for (int i = 0; i < itemCount; i++) {
+				cboDuongPho.removeItemAt(0);
+			}
+			ChooseItem itemD = (ChooseItem) cboPhuong.getSelectedItem();
+			int duongPho = itemD.getId();
+			arrDuongPho = DatabasebaocaoATM.getDuongPho(duongPho);
+			if (arrDuongPho.isEmpty()) {
+				cboDuongPho.addItem("K có máy nào");
+			} else {
+				for (ChooseItem x : arrDuongPho) {
+					cboDuongPho.addItem(x);
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+
+	}
+
+	public void selectMaMay() {
+		try {
+			arrMaATM.clear();
+			int itemCount = cboMayATM.getItemCount();
+			for (int i = 0; i < itemCount; i++) {
+				cboMayATM.removeItemAt(0);
+			}
+			// ChooseItem itemD = (ChooseItem) cboDuongPho.getSelectedItem();
+			// String duongPho = itemD.toString();
+			String duongPho = cboDuongPho.getSelectedItem().toString();
+			if(duongPho.equals("K có máy nào")) {
+				cboMayATM.addItem("Không có máy nào");
+			}else {
+				String ten = cboDuongPho.getSelectedItem().toString();
+				arrMaATM = DatabasebaocaoATM.getMaMay(duongPho);
+				if(arrMaATM.isEmpty()) {
+					cboMayATM.addItem("Không có máy nào");
+				}
+				else {
+					
+					for (String x : arrMaATM) {
+						cboMayATM.addItem(x);
+					}
+				}
+			}
+		
+		} catch (Exception ex) {
+
+		}
+
+	}
 	MouseListener tblUserClick = new MouseListener() {
 
 		@Override
@@ -115,15 +242,59 @@ public class BC_Ruttien_ATM extends JFrame {
 		}
 	};
 	
+	ActionListener selectListATM = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			danhSachATM();
+		}
+	};
+	public void danhSachATM() {
+		try {
+
+			ChooseItem check_ward = (ChooseItem) cboPhuong.getSelectedItem();
+			int id_phuong = check_ward.getId();
+			String code_atm = cboMayATM.getSelectedItem().toString();
+			String viTri = cboDuongPho.getSelectedItem().toString();
+		
+			if (viTri.equals("K có máy nào") && code_atm.equals("Empty")) {
+				arrRePort.clear();
+				dm.setRowCount(0);
+			}
+			else {
+				arrRePort.clear();
+				dm.setRowCount(0);
+				arrRePort = DatabasebaocaoATM.selectRutTienATM(code_atm);
+				for(GiaoDich x : arrRePort) {
+					
+				}
+			}
+				
+			
+		
+			
+				
+					
+				
+
+		
+		} catch (Exception ex) {
+		}
+	}
+
 	
 
 	public void addEvents() {
 		// btnchange_pass.addActionListener(changePassClick);
 		chucnangkhac.addActionListener(chucnangkhaccl);
 		thoat.addActionListener(thoatcl);
-		
-		show.addActionListener(showcl);
-		nhaplai.addActionListener(resetClick);
+		cboQuan.addActionListener(selectPhuong);
+		cboPhuong.addActionListener(selectDuongPho);
+		cboDuongPho.addActionListener(selectMayATM);
+		cboMayATM.addActionListener(selectListATM);
+		//btnShowThang.addActionListener(selectKHTheoThang);
+		//btnShowNam.addActionListener(selectKHTheoNam);
 		all.addActionListener(allcl);
 		tbl.addMouseListener(tblUserClick);
 
@@ -137,7 +308,7 @@ public class BC_Ruttien_ATM extends JFrame {
 	}
 
 	public void showWindow() {
-		this.setSize(900, 600);
+		this.setSize(1200, 700);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -213,164 +384,236 @@ public class BC_Ruttien_ATM extends JFrame {
 		JPanel pnCenter = new JPanel();
 		//pnCenter.setBackground(Color.YELLOW);
 		//pnCenter.setLayout(new BoxLayout(pnCenter, BoxLayout.Y_AXIS));
-		pnCenter.setPreferredSize(new Dimension(200, 400));
+		pnCenter.setPreferredSize(new Dimension(200, 500));
 		// center con
 		JPanel pnCentercon = new JPanel();
 		pnCentercon.setLayout(new BoxLayout(pnCentercon, BoxLayout.Y_AXIS));
-		pnCentercon.setPreferredSize(new Dimension(600, 280));
+		pnCentercon.setPreferredSize(new Dimension(600, 380));
 		
 		//pn center tren
-		JPanel pncenterTren = new JPanel();
-		pncenterTren.setLayout(new BoxLayout(pncenterTren, BoxLayout.X_AXIS));
-		pncenterTren.setPreferredSize(new Dimension(200, 150));
-		
-		JPanel pncenterTrenTrai = new JPanel();
-		pncenterTrenTrai.setLayout(new BoxLayout(pncenterTrenTrai, BoxLayout.Y_AXIS));
-		JPanel pncenterTrenTrai1 = new JPanel();
-		JLabel lbltrentrai1 = new JLabel("                              ");
-		pncenterTrenTrai1.add(lbltrentrai1);
-		pncenterTrenTrai.add(pncenterTrenTrai1);
-		
-		JPanel pncenterTrenTrai2 = new JPanel();
-		JLabel lbltrentrai2 = new JLabel(" CHỌN THÔNG TIN:");
-		pncenterTrenTrai2.add(lbltrentrai2);
-		pncenterTrenTrai.add(pncenterTrenTrai2);
-		
-		JPanel pntrenGiua = new JPanel();
-		pntrenGiua.setLayout(new BoxLayout(pntrenGiua, BoxLayout.Y_AXIS));
-		JPanel pntrengiua1 = new JPanel();
-		JLabel lblquan = new JLabel("CHỌN QUẬN:  ");
-		lblquan.setForeground(Color.BLUE);
-		setquan = new JComboBox<String>();
-		setquan.setPreferredSize(new Dimension(130, 20));
-
-		setquan.addItem("HOÀNG SA");
-		setquan.addItem("CẨM LỆ");
-		setquan.addItem("HÒA VANG");
-		setquan.addItem("THANH KHÊ");
-		setquan.addItem("SƠN TRÀ");
-		setquan.addItem("NGŨ HÀNH SƠN");
-		setquan.addItem("LIÊN CHIỂU");
-		setquan.addItem("HẢI CHÂU");
-		// setquan.addItem("HẢI CHÂU");
-
-		pntrengiua1.add(lblquan);
-		pntrengiua1.add(setquan);
-		pntrenGiua.add(pntrengiua1);
-		
-		JPanel pntrengiua2 = new JPanel();
+		JPanel pntren = new JPanel();
+		pntren.setLayout(new BoxLayout(pntren, BoxLayout.X_AXIS));
+		pntren.setPreferredSize(new Dimension(100, 30));
+		JPanel pntrenTrai = new JPanel();
+		pntrenTrai.setPreferredSize(new Dimension(100, 30));
+		pntren.add(pntrenTrai);
+		// JLabel lblTrenTrai = new JLabel("Chọn Thông tin");
+		// pntren.add(lblTrenTrai);
+		// phần trên phải
+		JPanel pntrenPhai = new JPanel();
+		pntrenPhai.setLayout(new BoxLayout(pntrenPhai, BoxLayout.Y_AXIS));
+		JPanel pntrenPhai1 = new JPanel();
+		// pntrenPhai1.setPreferredSize(new Dimension(100, 50));
 		JLabel lblPhuong = new JLabel("CHỌN PHƯỜNG:  ");
 		lblPhuong.setForeground(Color.BLUE);
-		setPhuong = new JComboBox<String>();
-		setPhuong.setPreferredSize(new Dimension(130, 30));
+		cboPhuong = new JComboBox();
+		selectPhuong();
+		cboPhuong.setPreferredSize(new Dimension(100, 20));
+		cboPhuong.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 
-		setPhuong.addItem("Hòa An");
-		setPhuong.addItem("Hòa Phát");
-		setPhuong.addItem("Hòa Thọ Đông");
-		setPhuong.addItem("Hòa Xuân");
-		setPhuong.addItem("Hòa Cường Bắc");
-		setPhuong.addItem("Hòa Cường Nam");
-		setPhuong.addItem("Hòa Bắc");
-		setPhuong.addItem("Hòa Châu");
-		setPhuong.addItem("Hòa Khương");
-		// setPhuong.addItem("Hòa Khương");
-		// setPhuong.addItem("Hòa Khương");
-		pntrengiua2.add(lblPhuong);
-		pntrengiua2.add(setPhuong);
-		pntrenGiua.add(pntrengiua2);
+		pntrenPhai1.add(lblPhuong);
+		pntrenPhai1.add(cboPhuong);
+
+		// trên phải vị trí thứ 2
+		JPanel pntrenPhai2 = new JPanel();
+		// pntrenPhai2.setPreferredSize(new Dimension(130, 20));
+		JLabel lblquan = new JLabel("CHỌN QUẬN:        ");
+		lblquan.setForeground(Color.BLUE);
+		cboQuan = new JComboBox<String>();
+		cboQuan.setPreferredSize(new Dimension(100, 20));
+		cboQuan.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+		ArrayList<ChooseItem> quan = new ArrayList<>();
+		quan = DatabaseDiaChi.getQuan();
+		for (ChooseItem x : quan) {
+			cboQuan.addItem(x);
+		}
+
+		pntrenPhai2.add(lblquan);
+		pntrenPhai2.add(cboQuan);
+		pntrenPhai.add(pntrenPhai2);
+		pntrenPhai.add(pntrenPhai1);
+
+		JPanel pntrenPhai3 = new JPanel();
+		JLabel nameDuongPho = new JLabel("    Đường phố: ");
+		nameDuongPho.setForeground(Color.BLUE);
+		nameDuongPho.setPreferredSize(new Dimension(100, 20));
+		cboDuongPho = new JComboBox<>();
+		cboDuongPho.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+		cboDuongPho.setPreferredSize(new Dimension(100, 20));
+		pntrenPhai3.add(nameDuongPho);
+
+		pntrenPhai3.add(cboDuongPho);
+		pntrenPhai.add(pntrenPhai3);
+
+		JPanel pnTrenGiua = new JPanel();
+		pnTrenGiua.setPreferredSize(new Dimension(100, 20));
+		JLabel lbltrengiua = new JLabel("CHỌN THÔNG TIN:");
+		lbltrengiua.setForeground(Color.black);
+		JPanel pnTrenGiua1 = new JPanel();
+		JLabel lbltrengiua1 = new JLabel("                                         ");
+		pnTrenGiua1.add(lbltrengiua1);
+		pnTrenGiua.add(pnTrenGiua1);
+
+		pnTrenGiua.add(lbltrengiua);
+		pntren.add(pnTrenGiua);
+
+		pntren.add(pntrenPhai);
+		pnCentercon.add(pntren);
+		//
+		// JPanel pngiua = new JPanel();
+		// JLabel lblgiua = new JLabel(" ");
+		// pngiua.add(lblgiua);
+		// pntren.add(pngiua);
+
+		// center dưới
+		JPanel pnduoi = new JPanel();
+		pnduoi.setLayout(new BoxLayout(pnduoi, BoxLayout.X_AXIS));
+		JPanel pnduoitrai = new JPanel();
+		JLabel lblmay = new JLabel("Chọn máy ATM");
+		pnduoitrai.add(lblmay);
+
+		cboMayATM = new JComboBox<>();
+		cboMayATM.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+		cboMayATM.setPreferredSize(new Dimension(140, 20));
+		pnduoitrai.add(cboMayATM);
+		pnduoi.add(pnduoitrai);
+
+		JPanel pnduoiphai = new JPanel();
+		pnduoiphai.add(all);
+		pnduoi.add(pnduoiphai);
+		pnCentercon.add(pnduoi);
 		
-		JPanel pntrengiua3 = new JPanel();
-		JLabel lbldiachi = new JLabel("Nhập địa chỉ");
-		txtdiachi = new JTextField(15);
-		lbldiachi.setForeground(Color.BLUE);
-		pntrengiua3.add(lbldiachi);
-		pntrengiua3.add(txtdiachi);
-		pntrenGiua.add(pntrengiua3);
+		//làm cardlayout để chon hiển thị theo thời gian
+		JPanel pnTime = new JPanel();
+		Border bd1 = BorderFactory.createLineBorder(Color.blue);
+		TitledBorder tblBorder = BorderFactory.createTitledBorder(bd1, "Chọn Thời Gian", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
+		pnTime.setBorder(tblBorder);
 		
-		JPanel pncentertrenphai = new JPanel();
-		pncentertrenphai.setLayout(new BoxLayout(pncentertrenphai, BoxLayout.Y_AXIS));
-		JPanel pncentertrenphai1= new JPanel();
-		JLabel lblphai1= new JLabel("                                     ");
-		pncentertrenphai.add(pncentertrenphai1);
+		//chọn thời gian để hiển thị
+		JPanel pnRadio = new JPanel();
+		pnRadio.setLayout(new BoxLayout(pnRadio, BoxLayout.Y_AXIS));
+		JRadioButton rd1 = new JRadioButton("Theo tháng");
+		rd1.setPreferredSize(new Dimension(200, 20));
+		rd1.setBounds(20, 20, 20, 20);
+		rd1.setSelected(true);
+		JRadioButton rd2 = new JRadioButton("Khoảng Thời Gian");
+		rd2.setPreferredSize(new Dimension(200, 20));
+		rd2.setBounds(20, 20, 20, 20);
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(rd1);
+		bg.add(rd2);
+		pnRadio.add(rd1);
+		pnRadio.add(rd2);
 		
-		JPanel pncentertrenphai2= new JPanel();
-		JLabel lblphai2 = new JLabel("CHỌN MÁY ATM");
-		txtphai2=  new JTextField(8);
-		pncentertrenphai2.add(lblphai2);
-		pncentertrenphai2.add(txtphai2);
-		pncentertrenphai.add(pncentertrenphai2);
+		//panel ngày tháng
+		CardLayout clTime = new CardLayout();
+		JPanel pnNhap = new JPanel(clTime);
+		String[] thang = new String [] {"01","02","03","04","05","06","07","08","09","10","11","12"}; 
+		String[] nam = new String [] {"2016","2017","2018","2019"}; 
+		JPanel pnNamThang = new JPanel();
+		JLabel lblthang = new JLabel("Tháng");
+		cboThang = new JComboBox<>(thang);
+		cboThang.setPreferredSize(new Dimension(60, 20));
 		
-		pncenterTren.add(pncenterTrenTrai);
-		pncenterTren.add(pntrenGiua);
-		pncenterTren.add(pncentertrenphai);
+		JLabel lblNam = new JLabel("Năm");
+		cboNam = new JComboBox<>(nam);
+		cboNam.setPreferredSize(new Dimension(60, 20));
 		
-		// pn dưới
-		JPanel pngiua = new JPanel();
-		JLabel lblthang = new JLabel("CHỌN THỜI GIAN");
-		txtthang = new JTextField(8);
-		pngiua.add(lblthang);
-		pngiua.add(txtthang);
+		btnShowThang = new JButton("Hiển Thị");
+		//btnShowThang.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.black));
+		btnHuyThang = new JButton("ReSet");
+		//btnHuyThang.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.black));
+		pnNamThang.add(lblthang);
+		pnNamThang.add(cboThang);
+		pnNamThang.add(lblNam);
+		pnNamThang.add(cboNam);
+		pnNamThang.add(btnShowThang);
+		pnNamThang.add(btnHuyThang);
 		
-		JPanel day = new JPanel();
-		day.setLayout(new BoxLayout(day, BoxLayout.X_AXIS));
-		JPanel day1 = new JPanel();
-		JLabel lblday1 = new JLabel("CHI TIẾT");
-		txtchitiet1 = new JTextField(15);
-		day1.add(lblday1);
-		day1.add(txtchitiet1);
-		day.add(day1);
+		//pn khoảng thời gian
+		JLabel timeStart = new JLabel("Từ ngày: ");
+		dateStart  = new JDateChooser();
+		dateStart.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+		dateStart.setDateFormatString("dd-MM-yyyy");
+		JTextFieldDateEditor started =  (JTextFieldDateEditor) dateStart.getDateEditor();
+		started.setEditable(false);
+		dateStart.setPreferredSize(new Dimension(100, 20));
 		
-		JPanel day2 = new JPanel();
-		JLabel lblday2 = new JLabel("ĐẾN");
+		//ngày kết thúc
+		JLabel timeEnd = new JLabel("Đến ngày: ");
+		dateEnd  = new JDateChooser();
+		dateEnd.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+		dateEnd.setDateFormatString("dd-MM-yyyy");
+		JTextFieldDateEditor end =  (JTextFieldDateEditor) dateStart.getDateEditor();
+		end.setEditable(false);
+		dateEnd.setPreferredSize(new Dimension(100, 20));
+		btnShowNam = new JButton("Hiển Thị");
+		//btnShowThang.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.black));
+		btnHuyNam = new JButton("ReSet");
+		//btnHuyThang.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.black));
+		 JPanel pnKhoangThoiGian = new JPanel();
+		 pnKhoangThoiGian.add(timeStart);
+		 pnKhoangThoiGian.add(dateStart);
+		 pnKhoangThoiGian.add(timeEnd);
+		 pnKhoangThoiGian.add(dateEnd);
+		 pnKhoangThoiGian.add(btnShowNam);
+		 pnKhoangThoiGian.add(btnHuyNam);
+		 
 		
-		day2.add(lblday2);
-		
-		day.add(day2);
-		
-		
-		
-		JPanel day3 = new JPanel();
-		
-		txtchitiet2 = new JTextField(15);
-		
-		day3.add(txtchitiet2);
-		day.add(day3);
-		
-		
-		pnCentercon.add(pncenterTren);
-		pnCentercon.add(pngiua);
-		pnCentercon.add(day);
-		
-			 // VỊ TRÍ
-			 //add button
-			 JPanel Actions = new JPanel();
-			 Actions.setPreferredSize(new Dimension(200, 30));
-			 JLabel kca1 =new JLabel("      ");
-			 show.setForeground(Color.blue);
-			 show.setBackground(Color.GREEN);
-			 nhaplai.setForeground(Color.blue);
-			 nhaplai.setBackground(Color.GREEN);
-			 Actions.add(show);
-			 Actions.add(kca1);
-			 Actions.add(nhaplai);
-			 pnCentercon.add(Actions);
+		 pnNhap.add(pnNamThang,"1");
+		 pnNhap.add(pnKhoangThoiGian,"2");
+		 clTime.show(pnNhap, "1");
+		 
+		 rd1.addActionListener(new ActionListener() {
 			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				 clTime.show(pnNhap, "1");
+			}
+		});
+		 
+		 rd2.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					 clTime.show(pnNhap, "2");
+				}
+			});
+		 
+		 pnTime.add(pnRadio);
+		 pnTime.add(pnNhap);
+		pnCentercon.add(pnTime);
+
+		// VỊ TRÍ
+		// add button
+		JPanel Actions = new JPanel();
+		Actions.setPreferredSize(new Dimension(200, 30));
+		JLabel kca1 = new JLabel("      ");
+		Actions.add(kca1);
+	
+		pnCentercon.add(Actions);
+		selectPhuong();
+		selectDuongPho();
+		selectMaMay();
 
 
 		pnCenter.add(pnCentercon);
 	
 		dm = new DefaultTableModel();
 		
-		dm.addColumn("Tình trạng");
-		dm.addColumn("Vị trí");
-		dm.addColumn("Số tiền còn");
+		dm.addColumn("Mã Giao Dịch");
+		dm.addColumn("Số thẻ");
+		dm.addColumn("Thời Gian");
+		dm.addColumn("Số tiền");
 		
 		
 		
 		
 		tbl = new JTable(dm);		
 		JScrollPane sc = new JScrollPane(tbl);
-		sc.setPreferredSize(new Dimension(650, 600));
+		sc.setPreferredSize(new Dimension(900, 600));
 		sc.setForeground(Color.BLUE);
 		// add thông tin vào pncenter con
 		pnCenter.add(sc);

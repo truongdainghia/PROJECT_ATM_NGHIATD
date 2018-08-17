@@ -92,7 +92,7 @@ public class Report extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			ATM_STATUS login = new ATM_STATUS("BÁO CÁO TÌNH TRẠNG ATM");
+			BC_Ruttien_ATM login = new BC_Ruttien_ATM("BÁO CÁO TÌNH TRẠNG ATM");
 			login.showWindow();
 			CloseFrame();
 		}

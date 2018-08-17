@@ -758,8 +758,8 @@ public class layout_ruttien extends JFrame {
 			}
 		});
 		selectPhuong();
-//		selectDuongPho();
-//		selectMaMay();
+		selectDuongPho();
+		selectMaMay();
 
 	}
 	public void CloseFrame() {
