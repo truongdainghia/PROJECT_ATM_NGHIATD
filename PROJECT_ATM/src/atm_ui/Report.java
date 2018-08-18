@@ -25,6 +25,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+@SuppressWarnings({ "unused", "serial" })
 public class Report extends JFrame {
 	JButton tien1 = new JButton("BÁO CÁO KHÁCH HÀNG");
 	JButton tien2 = new JButton("BÁO CÁO RÚT TIỀN KHÁCH HÀNG");

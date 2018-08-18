@@ -11,6 +11,7 @@ import ATM_entity.ATM;
 import ATM_entity.ChooseItem;
 import ATM_entity.KhachHang;
 
+@SuppressWarnings("unused")
 public class DatabaseATM {
 	final static Connection conn = ConnectDB.getConnect("localhost", "atm_db", "nghia111", "123456");
 	static ArrayList<ATM> arrATM = new ArrayList<ATM>();

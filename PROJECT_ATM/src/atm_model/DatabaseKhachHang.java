@@ -13,6 +13,7 @@ import ATM_entity.ChooseItem;
 import ATM_entity.KhachHang;
 
 
+@SuppressWarnings("unused")
 public class DatabaseKhachHang {
 	final static Connection conn = ConnectDB.getConnect("localhost", "atm_db", "nghia111", "123456");
 	static ArrayList<KhachHang> arKH = new ArrayList<KhachHang>();

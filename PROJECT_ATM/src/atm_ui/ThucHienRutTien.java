@@ -22,6 +22,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+@SuppressWarnings({ "unused", "serial" })
 public class ThucHienRutTien extends JFrame {
 	private String matk;
 	JButton tien1 = new JButton("50.000 VNĐ");

@@ -84,7 +84,9 @@ public class BC_RutTien_KhachHang extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			Admin login = new Admin("HỆ THỐNG ĐĂNG NHẬP ADMIN");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener showcl = new ActionListener() {

@@ -37,6 +37,7 @@ import atm_model.DatabaseDiaChi;
 import atm_model.DatabaseReport_KH;
 import atm_model.DatabasebaocaoATM;
 
+@SuppressWarnings({ "unused", "serial" })
 public class ATM_STATUS extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
@@ -46,6 +47,7 @@ public class ATM_STATUS extends JFrame {
 	JButton all = new JButton("XEM TẤT CẢ");;
 	JLabel kc1, kc2, kc3, kc4, kc5;
 	JTextField txttrenPhai, txttrenphai3, txtmay, txtday;
+	@SuppressWarnings("rawtypes")
 	JComboBox cboPhuong, cboQuan, cboDuongPho, cboMayATM;
 	DefaultTableModel dm;
 	JTable tbl;
@@ -70,7 +72,9 @@ public class ATM_STATUS extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			Admin login = new Admin("HỆ THỐNG ĐĂNG NHẬP ADMIN");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener showcl = new ActionListener() {
@@ -159,6 +163,7 @@ public class ATM_STATUS extends JFrame {
 		}
 	};
 
+	@SuppressWarnings("unchecked")
 	public void selectPhuong() {
 		try {
 			arrPhuong.clear();
@@ -178,6 +183,7 @@ public class ATM_STATUS extends JFrame {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void selectDuongPho() {
 		try {
 			arrDuongPho.clear();
@@ -201,6 +207,7 @@ public class ATM_STATUS extends JFrame {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void selectMaMay() {
 		try {
 			arrMaATM.clear();
@@ -311,6 +318,7 @@ public class ATM_STATUS extends JFrame {
 		this.setVisible(true);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addControls() {
 
 		Container con = getContentPane();

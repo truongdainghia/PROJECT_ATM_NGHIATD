@@ -11,6 +11,7 @@ import com.mysql.jdbc.Statement;
 
 import ATM_entity.ChooseItem;
 
+@SuppressWarnings("unused")
 public class DatabaseDiaChi {
 	final static Connection conn = ConnectDB.getConnect("localhost", "atm_db", "nghia111", "123456");
 	

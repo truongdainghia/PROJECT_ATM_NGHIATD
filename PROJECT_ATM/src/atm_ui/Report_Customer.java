@@ -34,6 +34,7 @@ import atm_model.DatabaseReport_KH;
 import ATM_entity.*;
 import ATM_entity.Transaction;
 
+@SuppressWarnings({ "unused", "serial" })
 public class Report_Customer extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
@@ -66,7 +67,9 @@ public class Report_Customer extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			Admin login = new Admin("HỆ THỐNG ĐĂNG NHẬP ADMIN");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener showcl = new ActionListener() {
@@ -199,6 +202,7 @@ public class Report_Customer extends JFrame {
 		this.setVisible(true);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addControls() {
 
 		Container con = getContentPane();

@@ -34,6 +34,7 @@ import atm_model.DatabaseGiaoDich;
 import atm_model.DatabaseKhachHang;
 import atm_model.DatabasebaocaoATM;
 
+@SuppressWarnings("unused")
 public class layout_ruttien extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -42,6 +43,7 @@ public class layout_ruttien extends JFrame {
 	private JTextField txtMaKH, txtTenKH, txtDc, txtSoThe, txtSoTK, txtSoTien, txtSoTienRut, txtMaPin;
 	private JPasswordField txtKMCu, txtKMMoi, txtKMNhapLai;
 	private JButton btnSoTienRut, btnLuu;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cboQuan, cboPhuong, cboDuongPho, cboMayATM;
 	private ArrayList<ChooseItem> arrPhuong = new ArrayList<>();
 	private ArrayList<ChooseItem> arrDuongPho = new ArrayList<>();
@@ -102,11 +104,13 @@ public class layout_ruttien extends JFrame {
 	};
 	ActionListener doiMaPin = new ActionListener() {
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 		@SuppressWarnings("deprecation")
 		String mkCu = txtKMCu.getText();
+		@SuppressWarnings("deprecation")
 		String mkNhapLai = txtKMNhapLai.getText();
 		String mkMoi = txtKMMoi.getText();
 		String sothe = txtSoThe.getText();
@@ -165,6 +169,7 @@ public class layout_ruttien extends JFrame {
 		}
 	};
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void thucHienRutTien() {
 		//tạo mã giao dịch
 		Random rdMaGD = new Random();
@@ -230,6 +235,7 @@ public class layout_ruttien extends JFrame {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void selectPhuong() {
 		try {
 		arrPhuong.clear();
@@ -363,7 +369,7 @@ public class layout_ruttien extends JFrame {
 		pnTitle.setOpaque(false);
 		pnTitle.setPreferredSize(new Dimension(800, 80));
 
-		JLabel nameTitle = new JLabel("Bạn đang ở đâu??");
+		JLabel nameTitle = new JLabel("BẠN MUỐN RÚT TIỀN Ở ĐÂU??");
 		Font font = new Font("Arial", Font.BOLD | Font.ITALIC, 30);
 		nameTitle.setForeground(Color.black);
 		nameTitle.setFont(font);
@@ -419,10 +425,10 @@ public class layout_ruttien extends JFrame {
 		JPanel pnButton = new JPanel();
 		pnButton.setOpaque(false);
 		pnButton.setPreferredSize(new Dimension(800, 100));
-		JButton btnSubmitDC = new JButton("Submit");
+		JButton btnSubmitDC = new JButton("ĐẾN");
 		btnSubmitDC.setPreferredSize(new Dimension(70, 20));
 		btnSubmitDC.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-		JButton btnLogout = new JButton("Đăng xuất");
+		JButton btnLogout = new JButton("THOÁT");
 		btnLogout.setPreferredSize(new Dimension(70, 20));
 		btnLogout.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 		pnButton.add(btnSubmitDC);
@@ -670,7 +676,7 @@ public class layout_ruttien extends JFrame {
 		pnTxt.add(txtSoTienRut);
 
 		txtSoTienRut.setPreferredSize(new Dimension(110, 20));
-		btnSoTienRut = new JButton("Submit");
+		btnSoTienRut = new JButton("THỰC HIỆN");
 		btnSoTienRut.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 		btnSoTienRut.setPreferredSize(new Dimension(120, 30));
 		JPanel pnBtn = new JPanel();
@@ -751,8 +757,8 @@ public class layout_ruttien extends JFrame {
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn muốn đăng xuất?", "Logout", dialogButton);
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					//LayoutLogin lg = new LayoutLogin("TP BANK");
-					//lg.showWindow();
+					dangnhapkh_ui lg = new dangnhapkh_ui("Đông Á BANK");
+					lg.showWindow();
 					dispose();
 				}
 			}

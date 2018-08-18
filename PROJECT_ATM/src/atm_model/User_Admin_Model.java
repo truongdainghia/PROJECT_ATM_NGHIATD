@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import com.mysql.jdbc.Driver;
 
+@SuppressWarnings("unused")
 public class User_Admin_Model {
 	final static Connection conn = ConnectDB.getConnect("localhost", "atm_db", "nghia111",
 			"123456");

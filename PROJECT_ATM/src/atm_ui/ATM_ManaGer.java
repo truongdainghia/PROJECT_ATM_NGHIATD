@@ -40,6 +40,7 @@ import atm_model.DatabaseATM;
 import atm_model.DatabaseDiaChi;
 import atm_model.DatabaseKhachHang;
 
+@SuppressWarnings({ "unused", "serial" })
 public class ATM_ManaGer extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
@@ -304,6 +305,7 @@ public class ATM_ManaGer extends JFrame {
 		
 	
 	};
+	@SuppressWarnings("static-access")
 	private void setText(String i) {
 		arrATM = connectATM.selectATM();
 		for (ATM kh : arrATM) {
@@ -353,6 +355,7 @@ public class ATM_ManaGer extends JFrame {
 		this.setVisible(true);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addControls() {
 
 		Container con = getContentPane();

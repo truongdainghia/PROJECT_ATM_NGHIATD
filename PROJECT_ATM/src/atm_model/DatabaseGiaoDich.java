@@ -11,6 +11,7 @@ import com.mysql.jdbc.Statement;
 
 import ATM_entity.KhachHang;
 
+@SuppressWarnings("unused")
 public class DatabaseGiaoDich {
 	final static Connection conn = ConnectDB.getConnect("localhost", "atm_db", "nghia111", "123456");
 	static ArrayList<KhachHang> arrKH = new ArrayList<KhachHang>();

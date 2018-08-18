@@ -25,15 +25,16 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+@SuppressWarnings({ "unused", "serial" })
 public class Admin_Manager extends JFrame {
 	JButton tien1 = new JButton("QUẢN LÝ KHÁCH HÀNG");
 	JButton tien2 = new JButton("QUẢN LÝ MÁY ATM");
-	JButton tien3 = new JButton("QUẢN LÝ GIAO DỊCH");
-	JButton gdKhac = new JButton(" ĐỔI MẬT KHẨU");
-	JButton tien4 = new JButton("THỐNG KÊ");
-	JButton tien5 = new JButton("QUẢN LÝ THÀNH VIÊN");
+	JButton tien3 = new JButton("THỐNG KÊ");
+	JButton gdKhac = new JButton(" THOÁT");
+	JButton tien4 = new JButton("LIÊN HỆ");
+	JButton tien5 = new JButton("TRỢ GIÚP");
 	JButton sokhac = new JButton("THÔNG TIN KHÁC");
-	JButton cancel = new JButton("THOÁT");
+	JButton cancel = new JButton("QUẢNG CÁO");
 	JTextField txtnhap ,txtnhaptien;
 	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 	private Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
@@ -62,15 +63,19 @@ public class Admin_Manager extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-
+			
+			Report login = new Report("GIAO DIỆN CHÍNH CỦA QUẢN LÝ THỐNG KÊ");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener gdKhacClick = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			Admin login = new Admin("HỆ THỐNG ĐĂNG NHẬP ADMIN");
+			login.showWindow();
+			CloseFrame();
 
 		}
 	};
@@ -79,9 +84,7 @@ public class Admin_Manager extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			Report login = new Report("GIAO DIỆN CHÍNH CỦA QUẢN LÝ THỐNG KÊ");
-			login.showWindow();
-			CloseFrame();
+			
 		}
 	};
 	ActionListener tien5Click = new ActionListener() {
@@ -105,9 +108,7 @@ public class Admin_Manager extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			Admin login = new Admin("HỆ THỐNG ĐĂNG NHẬP ADMIN");
-			login.showWindow();
-			CloseFrame();
+			
 		}
 	};
 	MouseListener tblUserClick = new MouseListener() {

@@ -36,6 +36,7 @@ import atm_model.DatabaseDiaChi;
 import atm_model.DatabaseKhachHang;
 
 
+@SuppressWarnings({ "unused", "serial" })
 public class Customer_CRUD extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
@@ -51,6 +52,7 @@ public class Customer_CRUD extends JFrame {
 	private static int stt = 0;
 	JTable tbl;
 	private ArrayList<ChooseItem> arrPhuong = new ArrayList<>();
+	@SuppressWarnings("rawtypes")
 	private ArrayList dsIdQuan = new ArrayList();
 	
 //	private ArrayList<ChooseItem> arrPhuong1 = new ArrayList<>();
@@ -58,6 +60,7 @@ public class Customer_CRUD extends JFrame {
 	private DatabaseKhachHang connectKH = new DatabaseKhachHang();
 	
 	
+	@SuppressWarnings("static-access")
 	void duLieu() {
 
 		arrKH = connectKH.selectKhachHang();
@@ -96,6 +99,7 @@ public class Customer_CRUD extends JFrame {
 	};
 	ActionListener addClick = new ActionListener() {
 
+		@SuppressWarnings("static-access")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//arrKH = connectKH.selectKhachHang();
@@ -505,6 +509,7 @@ public class Customer_CRUD extends JFrame {
 			}
 		}};
 
+		@SuppressWarnings("static-access")
 		private void setText(String i) {
 			int row = tbl.getSelectedRow();
 			// TODO Auto-generated method stub
@@ -593,6 +598,7 @@ public class Customer_CRUD extends JFrame {
 		this.setVisible(true);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addControls() {
 
 		Container con = getContentPane();

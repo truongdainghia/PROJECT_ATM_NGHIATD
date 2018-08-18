@@ -6,8 +6,8 @@ public class manager_atm {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		Login_ui login = new Login_ui("Máy ATM");
-//		login.showWindow();
+		Login_ui login = new Login_ui("Máy ATM");
+		login.showWindow();
 //		dangnhapkh_ui login = new dangnhapkh_ui("HỆ THỐNG ĐĂNG NHẬP KHÁCH HÀNG");
 //		login.showWindow();
 //		RutTien_ui login = new RutTien_ui("HỆ THỐNG RÚT TIỀN DÀNH CHO KHÁCH HÀNG", null);
@@ -32,8 +32,8 @@ public class manager_atm {
 //		login.showWindow();
 //		ATM_STATUS login = new ATM_STATUS("BÁO CÁO TÌNH TRẠNG ATM");
 //		login.showWindow();
-		BC_Ruttien_ATM login = new BC_Ruttien_ATM("BÁO CÁO TÌNH TRẠNG ATM");
-			login.showWindow();
+//		BC_Ruttien_ATM login = new BC_Ruttien_ATM("BÁO CÁO TÌNH TRẠNG ATM");
+//			login.showWindow();
 //		layout_ruttien  login= new layout_ruttien("", null);
 //		login.showWindow();
 ////		

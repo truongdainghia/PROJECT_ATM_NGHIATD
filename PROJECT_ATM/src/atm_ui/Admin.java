@@ -32,6 +32,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import atm_model.User_Admin_Model;
+@SuppressWarnings({ "unused", "serial" })
 public class Admin extends JFrame {
 	JButton enTer = new JButton("ENTER"); 
 	JButton clear = new JButton("CLEAR"); 

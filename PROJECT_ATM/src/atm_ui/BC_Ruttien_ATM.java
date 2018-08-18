@@ -45,6 +45,7 @@ import ATM_entity.GiaoDich;
 import atm_model.DatabaseDiaChi;
 import atm_model.DatabasebaocaoATM;
 
+@SuppressWarnings({ "unused", "serial" })
 public class BC_Ruttien_ATM extends JFrame {
 
 	JButton chucnangkhac = new JButton("CHỨC NĂNG KHÁC");
@@ -53,9 +54,11 @@ public class BC_Ruttien_ATM extends JFrame {
 	JButton all = new JButton("XEM TẤT CẢ");;
 	JLabel kc1, kc2, kc3, kc4, kc5;
 	JTextField txttrenPhai, txttrenphai3, txtmay, txtday, txtdiachi, txtphai2, txtthang, txtchitiet1, txtchitiet2;
+	@SuppressWarnings("rawtypes")
 	JComboBox cboPhuong, cboQuan, cboDuongPho, cboMayATM;
 	DefaultTableModel dm;
 	JTable tbl;
+	@SuppressWarnings("rawtypes")
 	JComboBox cboThang, cboNam;
 	ArrayList<GiaoDich> arrRePort = new ArrayList<GiaoDich>();
 
@@ -80,7 +83,9 @@ public class BC_Ruttien_ATM extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			Admin login = new Admin("HỆ THỐNG ĐĂNG NHẬP ADMIN");
+			login.showWindow();
+			CloseFrame();
 		}
 	};
 	ActionListener showcl = new ActionListener() {
@@ -241,6 +246,7 @@ public class BC_Ruttien_ATM extends JFrame {
 	}
 	};
 
+	@SuppressWarnings("unchecked")
 	public void selectPhuong() {
 		try {
 			arrPhuong.clear();
@@ -260,6 +266,7 @@ public class BC_Ruttien_ATM extends JFrame {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void selectDuongPho() {
 		try {
 			arrDuongPho.clear();
@@ -283,6 +290,7 @@ public class BC_Ruttien_ATM extends JFrame {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void selectMaMay() {
 		try {
 			arrMaATM.clear();
@@ -417,6 +425,7 @@ public class BC_Ruttien_ATM extends JFrame {
 		this.setVisible(true);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addControls() {
 
 		Container con = getContentPane();

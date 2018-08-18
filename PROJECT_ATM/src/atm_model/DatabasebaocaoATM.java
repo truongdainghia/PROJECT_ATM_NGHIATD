@@ -14,6 +14,7 @@ import ATM_entity.ATM;
 import ATM_entity.ChooseItem;
 import ATM_entity.GiaoDich;
 
+@SuppressWarnings("unused")
 public class DatabasebaocaoATM {
 	final static Connection conn = ConnectDB.getConnect("localhost", "atm_db", "nghia111", "123456");
 

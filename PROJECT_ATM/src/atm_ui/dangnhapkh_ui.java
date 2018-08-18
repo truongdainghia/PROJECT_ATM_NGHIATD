@@ -22,6 +22,7 @@ import ATM_entity.KhachHang;
 import atm_model.DatabaseKhachHang;
 import atm_model.User_Admin_Model;
 
+@SuppressWarnings({ "unused", "serial" })
 public class dangnhapkh_ui extends JFrame {
 	JButton enter = new JButton("ENTER");
 	JButton clear = new JButton("CLEAR");
@@ -32,21 +33,13 @@ public class dangnhapkh_ui extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// // TODO Auto-generated method stub
-			//
-			// RutTien_ui login = new RutTien_ui("HỆ THỐNG RÚT TIỀN DÀNH CHO KHÁCH HÀNG");
-			// login.showWindow();
 			String SoThe = txt_sothe.getText();
 			String MaPin = txtPin.getText();
 			if (SoThe.isEmpty() || MaPin.isEmpty()) {
 				htLoi.setText("SỐ THẺ HOẶC MÃ PIN KHÔNG ĐƯỢC ĐỂ TRỐNG !!");
 			} else if (login()) {
 				dispose();
-				// get matk
-				//KhachHang kh = DatabaseKhachHang.getKh(SoThe, MaPin);
-				//layout_ruttien login1 = new layout_ruttien("HỆ THỐNG KHÁCH HÀNG");
 				layout_ruttien();
-				//login1.showWindow();
 			} else {
 				htLoi.setText("SỐ THẺ HOẶC MÃ PIN KHÔNG CHÍNH XÁC");
 			}

@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 public class RutTien_ui extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private String maTk;
 	JButton btnchange_pass = new JButton("ĐỔI MẬT KHẨU");
 	JButton btn_info = new JButton("TRA CỨU THÔNG TIN");
